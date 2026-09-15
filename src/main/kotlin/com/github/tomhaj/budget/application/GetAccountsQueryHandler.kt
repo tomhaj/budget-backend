@@ -1,14 +1,24 @@
 package com.github.tomhaj.budget.application
 
 import java.math.BigDecimal
-import java.util.UUID
 
-class GetAccountsQueryHandler {
+class GetAccountsQueryHandler(
+    private val transaction: PersistenceTransaction,
+    private val accountRepository: AccountRepository,
+) {
     fun handle(query: GetAccountsQuery): List<Account> =
-        listOf(
-            Account(UUID.randomUUID().toString(), "My first account", true, BigDecimal("0.00")),
-            Account(UUID.randomUUID().toString(), "My second account", false, BigDecimal("3654.50")),
-        )
+        transaction.executeReadOnly {
+            accountRepository
+                .findAll(query.visibility)
+                .map {
+                    Account(
+                        it.id.value.toString(),
+                        it.name.value,
+                        it.onBudget,
+                        it.workingBalance.value,
+                    )
+                }
+        }
 }
 
 data class GetAccountsQuery(
