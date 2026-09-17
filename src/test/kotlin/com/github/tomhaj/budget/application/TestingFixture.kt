@@ -1,12 +1,12 @@
 package com.github.tomhaj.budget.application
 
-import com.github.tomhaj.budget.infrastructure.persistence.InMemoryAccountRepository
-import com.github.tomhaj.budget.infrastructure.persistence.InMemoryPersistenceTransaction
+import com.github.tomhaj.budget.infrastructure.persistence.AccountRepositoryInMemoryAdapter
+import com.github.tomhaj.budget.infrastructure.persistence.PersistenceTransactionInMemoryAdapter
 import java.math.BigDecimal
 
 open class TestingFixture {
-    private val persistenceTransaction = InMemoryPersistenceTransaction()
-    private val accountRepository = InMemoryAccountRepository()
+    private val persistenceTransaction = PersistenceTransactionInMemoryAdapter()
+    private val accountRepository = AccountRepositoryInMemoryAdapter()
     private val openAccountCommandHandler = OpenAccountCommandHandler(persistenceTransaction, accountRepository)
     private val getAccountsQueryHandler = GetAccountsQueryHandler(persistenceTransaction, accountRepository)
 
