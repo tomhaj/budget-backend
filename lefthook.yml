@@ -1,0 +1,12 @@
+pre-commit:
+  parallel: true
+  commands:
+    ktlint-format:
+      glob: "*.{kt,kts}"
+      run: ./mvnw ktlint:format
+      stage_fixed: true
+
+pre-push:
+  commands:
+    tests:
+      run: ./mvnw clean verify
