@@ -24,6 +24,13 @@ class Account private constructor(
             onBudget: Boolean,
             openingBalance: Money,
         ) = Account(AccountId.nextValue(), name, onBudget, openingBalance)
+
+        fun restore(
+            id: AccountId,
+            name: Name,
+            onBudget: Boolean,
+            balance: Money,
+        ) = Account(id, name, onBudget, balance)
     }
 }
 
